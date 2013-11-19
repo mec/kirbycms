@@ -21,13 +21,15 @@ function url($uri=false, $lang=false) {
     $lang = ($lang) ? $lang : c::get('lang.current');
     if (c::get('lang.default.hidden')) {
         // we want to hide the default language
-        // is this not the default
+        // if  this not the default we rewrite the url with the lang code and if it is the default,
+        // we do nothing.
         if ( $lang !=  c::get('lang.default') ) {
           // prepend the language code to the uri
           $uri = $lang . '/' . ltrim($uri, '/');
         }
     }
     else {
+        // if the hidden option is false, we just add the lang code (this maintains the origianl behaviour)
        $uri = $lang . '/' . ltrim($uri, '/');
     }
   } 

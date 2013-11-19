@@ -44,7 +44,7 @@ c::set('url', '/');
  
 */
 
-c::set('url', 'http://localhost/kirbycms');
+c::set('url', false);
 
 
 /* 
