@@ -19,17 +19,18 @@ function url($uri=false, $lang=false) {
   // prepare the lang variable for later
   if(c::get('lang.support')) {
     $lang = ($lang) ? $lang : c::get('lang.current');
-    
-    // prepend the language code to the uri
-    $uri = $lang . '/' . ltrim($uri, '/');
+    if (c::get('lang.default.hidden')) {
+        // we want to hide the default language
+        // is this not the default
+        if ( $lang !=  c::get('lang.default') ) {
+          // prepend the language code to the uri
+          $uri = $lang . '/' . ltrim($uri, '/');
+        }
+    }
+    else {
+       $uri = $lang . '/' . ltrim($uri, '/');
+    }
   } 
-
-  // if rewrite is deactivated
-  // index.php needs to be prepended
-  // so urls will still work
-  if(!c::get('rewrite') && $uri) {
-    $uri = 'index.php/' . $uri;
-  }
   
   // return the final url and make sure 
   // we don't get double slashes by triming the uri   

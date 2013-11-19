@@ -109,44 +109,47 @@ class site extends obj {
           $this->uri = new uri($uri);
         }
       }
-      
-      // try to rewrite broken translated urls
-      // this will only work for default uris
-      if(c::get('lang.support')) {
-        
-        $path  = $this->uri->path->toArray();
-        $obj   = $pages;
-        $found = false;
-    
-        foreach($path as $p) {    
-          
-          // first try to find the page by uid
-          $next = $obj->{'_' . $p};
-                                        
-          if(!$next) {
-            
-            // go through each translation for each child page 
-            // and try to find the url_key or uid there
-            foreach($obj as $child) {
-              foreach(c::get('lang.available') as $lang) {
-                $c = $child->content($lang);   
-                // redirect to the url if a translated url has been found
-                if($c && $c->url_key() == $p && !$child->isErrorPage()) $next = $child;
-              }
-            }
 
-            if(!$next) break;
-          }
-    
-          $found = $next;
-          $obj   = $next->children();
-        }
+    // I've commented this out because when included it seems to cause Kirby to not display 404 errors when inside
+    // folders and instead rewrites the URL to the parent folder.
+
+    //   // try to rewrite broken translated urls
+    //   // this will only work for default uris
+    //   if(c::get('lang.support')) {
         
-        if($found && !$found->isErrorPage()) go($found->url());
+    //     $path  = $this->uri->path->toArray();
+    //     $obj   = $pages;
+    //     $found = false;
+    
+    //     foreach($path as $p) {    
+          
+    //       // first try to find the page by uid
+    //       $next = $obj->{'_' . $p};
+                                        
+    //       if(!$next) {
+            
+    //         // go through each translation for each child page 
+    //         // and try to find the url_key or uid there
+    //         foreach($obj as $child) {
+    //           foreach(c::get('lang.available') as $lang) {
+    //             $c = $child->content($lang);   
+    //             // redirect to the url if a translated url has been found
+    //             if($c && $c->url_key() == $p && !$child->isErrorPage()) $next = $child;
+    //           }
+    //         }
+
+    //         if(!$next) break;
+    //       }
+    
+    //       $found = $next;
+    //       $obj   = $next->children();
+    //     }
+        
+    //     if($found && !$found->isErrorPage()) go($found->url());
                 
-      }      
+    //   }      
       
-    }
+        }
     
     // redirect file urls (file:image.jpg)
     if($this->uri->param('file')) {
@@ -421,10 +424,17 @@ class site extends obj {
 
     // get the raw uri
     $uri = uri::raw();
-       
+
     // get the current language code      
     $code = a::first(explode('/', $uri));
 
+    // if the lang.default.hidden option is set
+    // we assume if the first element of the uri is not in the available languages list, it must be the default so we set it
+    // there is a danger here that the url might be in the langage list, but it's small
+    if (c::get('lang.default.hidden')) {
+      if(!in_array($code, c::get('lang.available'))) $code = c::get('lang.default');
+    }
+    
     // try to detect the language code if the code is empty
     if(empty($code)) {
       
