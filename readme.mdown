@@ -5,12 +5,33 @@ Easy to setup, easy to use, flexible as hell.
 
 <http://getkirby.com>
 
-## This is a modified version of Kirby to support multi-langauge sites
+## This is a modified version of Kirby!
+### The goal is to produce different behaviour when using a multi-language site
 
 The following changes from the normal behaviour
 
 - there is a setting in config.php that allows you to hide the default langauge code
 - instead of redirecting to the home page, a non-exsistant URL results in a 404 error
+
+So, assuming the default language is 'en'
+
+http://example.com/en/about-us
+
+becomes
+
+http://example.com/about-us
+
+http://example.com/de/about-us
+
+remains as is
+
+If you browse to 
+
+http://example.com/projects/a-non-exsistant-file
+
+you get 404
+
+Everything else works as normal Kirby.
 
 ## Basics Steps
 
