@@ -410,7 +410,7 @@ c::set('lang.support', true);
 c::set('lang.default', 'en');
 c::set('lang.default.hidden', true);
 c::set('lang.available', array('en', 'de'));
-c::set('lang.detect', true);
+c::set('lang.detect', false);
 c::set('lang.locale', false);
 
 

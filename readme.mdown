@@ -10,8 +10,8 @@ Easy to setup, easy to use, flexible as hell.
 
 The following changes from the normal behaviour
 
-- there is a setting in config.php that allows you to hide the default langauge code
-- instead of redirecting to the home page, a non-exsistant URL results in a 404 error
+- there is a setting in config.php that allows you to remove the default langauge code from the url
+- instead of redirecting to the home page, a non-exsistant URL or language code results in a 404 error
 
 So, assuming the default language is 'en'
 
@@ -29,9 +29,16 @@ If you browse to
 
 http://example.com/projects/a-non-exsistant-file
 
+or
+
+http://example.com/bob/projects
+
 you get 404
 
-Everything else works as normal Kirby.
+Everything else works as normal Kirby but we can no longer detect the language so this setting in your config.php must be false
+
+c::set('lang.detect', false);
+
 
 ## Basics Steps
 
@@ -39,4 +46,5 @@ Everything else works as normal Kirby.
 - Check that the language settings in config.php are set
 	- c::set('lang.support', true);
 	- c::set('lang.default.hidden', true);
-	- c::set('lang.default', 'en'); (or any language code)
+	- c::set('lang.default', 'en'); (or any other available language code)
+	- c::set('lang.detect', false); (to disable language detection)
